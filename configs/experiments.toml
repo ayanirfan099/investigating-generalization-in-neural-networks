@@ -1,0 +1,9 @@
+epochs = 3
+limit = 1000
+seeds = [42,43,44]
+split_seed = 2026
+learning_rate = 0.001
+batch_size = 64
+dropout = 0.3
+weight_decay = 0.01
+# Full research run: --limit 48000 --epochs 30 --seeds 42 43 44 45 46

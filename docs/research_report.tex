@@ -1,0 +1,27 @@
+\documentclass{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\title{Regularization under a limited training budget}
+\date{}
+\begin{document}
+\maketitle
+\begin{abstract}Controlled exploratory Fashion-MNIST experiments compare five regularization treatments across three seeds. Results below are measured CPU experiments, not a full-data benchmark.\end{abstract}
+\section{Methods}The same small CNN, seed-specific initialization, fixed train/validation/test indices and eight-epoch budget were used for all treatments. Training used 3,000 images, validation and test used 750 each. AdamW learning rate was 0.001; dropout was 0.3 and weight decay 0.01 where enabled. Checkpoints were selected by validation loss. Training accuracy was evaluated without augmentation and dropout.
+\section{Results}
+\begin{tabular}{lrr}\toprule Treatment & Mean test accuracy & Sample SD \\\midrule
+baseline & 0.7507 & 0.0083 \\
+dropout & 0.7471 & 0.0198 \\
+weight\_decay & 0.7493 & 0.0069 \\
+augmentation & 0.7222 & 0.0113 \\
+combined & 0.7209 & 0.0235 \\
+\bottomrule\end{tabular}
+\section{Discussion and limitations}Three seeds and a small test subset do not establish population-level significance. A smaller generalization gap can reflect underfitting. This is an exploratory extension following a short pilot; it does not reproduce published protocols. Full records and the complete literature review are in the accompanying Markdown report.
+\begin{thebibliography}{9}
+\bibitem{dropout}Srivastava et al. Dropout. JMLR 15, 2014.
+\bibitem{adamw}Loshchilov and Hutter. Decoupled Weight Decay Regularization. ICLR, 2019.
+\bibitem{augment}Simard et al. Best Practices for Convolutional Neural Networks Applied to Visual Document Analysis. ICDAR, 2003.
+\bibitem{generalization}Zhang et al. Understanding deep learning requires rethinking generalization. ICLR, 2017.
+\bibitem{fashion}Xiao et al. Fashion-MNIST. arXiv:1708.07747, 2017.
+\end{thebibliography}
+\end{document}

@@ -1,0 +1,3 @@
+# Limitations
+
+Small single-dataset study with three seeds and a fixed 750-image test subset. Sample SD describes optimization variation, not confidence in general population accuracy. No significance claims. A larger budget was selected after inspecting pilot metrics, so regard the extension as exploratory rather than preregistered. No hyperparameter search was conducted, but no untouched confirmatory benchmark remains for this budget. Data augmentation changes optimization noise and may slow convergence. Eight epochs can still underfit. These runs do not reproduce the cited papers. Full 48,000/12,000/10,000 runs and additional seeds remain pending.
