@@ -1,4 +1,4 @@
-# Investigating generalization in neural networks
+# Neural Network Generalization — Controlled Ablation Study
 
 Controlled CPU experiments on dropout, weight decay and image augmentation using Fashion-MNIST, repeated seeds, explicit split isolation and genuinely measured learning curves.
 
