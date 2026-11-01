@@ -2,18 +2,14 @@
 
 Controlled CPU experiments on dropout, weight decay and image augmentation using Fashion-MNIST, repeated seeds, explicit split isolation and genuinely measured learning curves.
 
-## Research question and methodology
-Fashion-MNIST from the official zalandoresearch GitHub mirror, using torchvision published MD5 resource checks. Small CNN with identical parameter shapes and initial weights across treatments per seed. Fixed data split seed 2026 and official test subset seed 2027; 3,000 train, 750 validation, 750 official test images. Three optimization seeds (42,43,44), eight epochs, batch 64, AdamW learning rate 0.001. Five predetermined treatments: baseline, dropout p=0.3, weight decay 0.01, random horizontal flip plus small affine augmentation, and combined. Select each checkpoint on validation loss. Evaluate training accuracy with dropout disabled and no augmentation, matching validation/test evaluation mode. Log initial parameter hashes, data indices, epoch losses/accuracies, runtime and paired accuracy differences. Pilot (1,000/250/250, three epochs) retained separately; the larger budget was an exploratory extension for compute coverage, not tuning treatment values to test results.
+[![CI](https://github.com/ayanirfan099/investigating-generalization-in-neural-networks/actions/workflows/ci.yml/badge.svg)](https://github.com/ayanirfan099/investigating-generalization-in-neural-networks/actions/workflows/ci.yml) ![Python 3.12 CI](https://img.shields.io/badge/Python-3.12_CI-3776AB) [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-```mermaid
-flowchart LR
-    A[Validated data] --> B[Reproducible preprocessing]
-    B --> C[Models and baselines]
-    C --> D[Held-out evaluation]
-    D --> E[Metrics and analysis]
-```
+![Fashion-MNIST treatment comparison across three optimization seeds](results/extended/comparison.png)
+
 
 ## Executed results
+
+In the extended experiment, augmentation and combined treatment averaged 2.85 and 2.98 percentage points below baseline respectively (0.7222/0.7209 vs 0.7507). Smaller train–test gaps coincided with lower test accuracy. These rounded differences are descriptive; three optimization seeds do not establish significance.
 Both pilot and extended experiments executed: 30 training runs total. All five treatments use the same declared budget within each study.
 
 | Treatment | Test accuracy mean | Sample SD | Mean train–test gap |
@@ -26,7 +22,6 @@ Both pilot and extended experiments executed: 30 training runs total. All five t
 
 [Extended machine-readable results](results/extended/metrics.json), [pilot](results/cpu/metrics.json).
 
-![Extended comparison](results/extended/comparison.png)
 ![Validation curves](results/extended/curves.png)
 
 ## Reproduce
@@ -40,6 +35,18 @@ python -m generalization.cli --data data --limit 48000 --epochs 30 --seeds 42 43
 pytest -q
 ruff check .
 ruff format --check .
+```
+
+## Research question and methodology
+Fashion-MNIST from the official zalandoresearch GitHub mirror, using torchvision published MD5 resource checks. Small CNN with identical parameter shapes and initial weights across treatments per seed. Fixed data split seed 2026 and official test subset seed 2027; 3,000 train, 750 validation, 750 official test images. Three optimization seeds (42,43,44), eight epochs, batch 64, AdamW learning rate 0.001. Five predetermined treatments: baseline, dropout p=0.3, weight decay 0.01, random horizontal flip plus small affine augmentation, and combined. Select each checkpoint on validation loss. Evaluate training accuracy with dropout disabled and no augmentation, matching validation/test evaluation mode. Log initial parameter hashes, data indices, epoch losses/accuracies, runtime and paired accuracy differences. Pilot (1,000/250/250, three epochs) retained separately; the larger budget was an exploratory extension for compute coverage, not tuning treatment values to test results.
+
+```mermaid
+flowchart LR
+    Data[Fixed Fashion-MNIST subsets] --> Seeds[Three optimization seeds]
+    Seeds --> Init[Paired initial-weight hashes]
+    Init --> Arms[Baseline, dropout, decay, augmentation, combined]
+    Arms --> Select[Validation-loss checkpoint selection]
+    Select --> Compare[Paired test accuracy and train-test gaps]
 ```
 
 ## Implementation and review
